@@ -1,23 +1,26 @@
 import json
 import random
 import requests
-import os  # Importar módulo para leer variables de entorno
+import os  # Para leer variables de entorno
 
 # Obtener credenciales desde GitHub Secrets
-PHONE_NUMBER = os.getenv("WHATSAPP_NUMBER")
+PHONE_NUMBERS = [
+    os.getenv("WHATSAPP_NUMBER"),  # Primer número
+    os.getenv("WHATSAPP_NUMBER_2")  # Segundo número
+]
 API_KEY = os.getenv("CALLMEBOT_APIKEY")
 
 # Cargar las mortificaciones desde el JSON
 with open("mortificaciones.json", "r", encoding="utf-8") as file:
     data = json.load(file)
 
-# Mortificaciones constantes (puedes cambiarlas si quieres)
+# Mortificaciones constantes
 MORTIFICACIONES_FIJAS = [
     "Ayunar los viernes.",
     "Orar el Rosario todos los días."
 ]
 
-# Seleccionar 3 mortificaciones aleatorias de diferentes categorías
+# Seleccionar 3 mortificaciones aleatorias
 mortificaciones_aleatorias = []
 categorias = list(data["mortificaciones"])
 random.shuffle(categorias)
@@ -39,12 +42,13 @@ mensaje += f"3️⃣ {mortificaciones_aleatorias[0]}\n"
 mensaje += f"4️⃣ {mortificaciones_aleatorias[1]}\n"
 mensaje += f"5️⃣ {mortificaciones_aleatorias[2]}\n"
 
-# Enviar el mensaje por WhatsApp
-url = f"https://api.callmebot.com/whatsapp.php?phone={PHONE_NUMBER}&text={mensaje}&apikey={API_KEY}"
+# Enviar el mensaje a cada número
+for phone in PHONE_NUMBERS:
+    if phone:  # Verificar que la variable de entorno no está vacía
+        url = f"https://api.callmebot.com/whatsapp.php?phone={phone}&text={mensaje}&apikey={API_KEY}"
+        response = requests.get(url)
 
-response = requests.get(url)
-
-if response.status_code == 200:
-    print("✅ Mensaje enviado con éxito")
-else:
-    print(f"❌ Error al enviar el mensaje: {response.status_code}")
+        if response.status_code == 200:
+            print(f"✅ Mensaje enviado a {phone}")
+        else:
+            print(f"❌ Error al enviar el mensaje a {phone}: {response.status_code}")
