@@ -24,5 +24,6 @@ jobs:
       - name: Ejecutar el script
         env:
           WHATSAPP_NUMBER: ${{ secrets.WHATSAPP_NUMBER }}
+          WHATSAPP_NUMBER_2: ${{ secrets.WHATSAPP_NUMBER_2 }}
           CALLMEBOT_APIKEY: ${{ secrets.CALLMEBOT_APIKEY }}
         run: python send_mortifications.py
