@@ -7,7 +7,6 @@ import datetime
 # Obtener credenciales desde GitHub Secrets
 PHONE_NUMBERS = [
     os.getenv("WHATSAPP_NUMBER"),  # Primer número
-    os.getenv("WHATSAPP_NUMBER_2")  # Segundo número
 ]
 API_KEY = os.getenv("CALLMEBOT_APIKEY")
 
