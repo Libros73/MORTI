@@ -5,10 +5,8 @@ import os
 import datetime
 
 # Obtener credenciales desde GitHub Secrets
-PHONE_NUMBERS = [
-    os.getenv("WHATSAPP_NUMBER"),  # Primer número
-]
-API_KEY = os.getenv("CALLMEBOT_APIKEY")
+PHONE_NUMBER = "573058180027"
+API_KEY = "5298266"
 
 # Definir mortificaciones fijas por día de la semana
 MORTIFICACIONES_FIJAS = {
