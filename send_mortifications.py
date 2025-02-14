@@ -9,9 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Obtener credenciales desde GitHub Secrets
-PHONE_NUMBERS = [
-    os.getenv("WHATSAPP_NUMBER"),  # Primer número
-]
+PHONE_NUMBER = os.getenv("WHATSAPP_NUMBER")
 API_KEY = os.getenv("CALLMEBOT_APIKEY")
 
 # Verificar que las credenciales existen
