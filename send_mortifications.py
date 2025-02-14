@@ -3,12 +3,20 @@ import random
 import requests
 import os
 import datetime
+from dotenv import load_dotenv
+
+# Cargar variables de entorno
+load_dotenv()
 
 # Obtener credenciales desde GitHub Secrets
-PHONE_NUMBERS = [
-    os.getenv("WHATSAPP_NUMBER"),  # Primer número
-]
+PHONE_NUMBER = [os.getenv("WHATSAPP_NUMBER")]
 API_KEY = os.getenv("CALLMEBOT_APIKEY")
+
+# Verificar que las credenciales existen
+if not PHONE_NUMBER[0] or not API_KEY:
+    print("Error: No se encontraron las credenciales necesarias")
+    print("Asegúrate de configurar WHATSAPP_NUMBER y CALLMEBOT_APIKEY en los secrets de GitHub")
+    exit()
 
 # Definir mortificaciones fijas por día de la semana
 MORTIFICACIONES_FIJAS = {
@@ -29,8 +37,12 @@ if hoy == "Sunday":
     exit()
 
 # Cargar las mortificaciones desde el JSON
-with open("mortificaciones.json", "r", encoding="utf-8") as file:
-    data = json.load(file)
+try:
+    with open("mortificaciones.json", "r", encoding="utf-8") as file:
+        data = json.load(file)
+except FileNotFoundError:
+    print("Error: No se encontró el archivo mortificaciones.json")
+    exit()
 
 # Seleccionar 3 mortificaciones aleatorias
 mortificaciones_aleatorias = []
@@ -55,12 +67,21 @@ mensaje += f"4️⃣ {mortificaciones_aleatorias[1]}\n"
 mensaje += f"5️⃣ {mortificaciones_aleatorias[2]}\n"
 
 # Enviar el mensaje a cada número
-for phone in PHONE_NUMBERS:
-    if phone:  # Verificar que la variable de entorno no está vacía
-        url = f"https://api.callmebot.com/whatsapp.php?phone={phone}&text={mensaje}&apikey={API_KEY}"
-        response = requests.get(url)
+for phone in PHONE_NUMBER:
+    if phone:  # Verificar que el número no está vacío
+        # Codificar el mensaje para la URL
+        mensaje_codificado = requests.utils.quote(mensaje)
+        url = f"https://api.callmebot.com/whatsapp.php?phone={phone}&text={mensaje_codificado}&apikey={API_KEY}"
+        
+        try:
+            response = requests.get(url)
+            if response.status_code == 200:
+                print(f"✅ Mensaje enviado a {phone}")
+            else:
+                print(f"❌ Error al enviar el mensaje a {phone}: {response.status_code}")
+        except requests.exceptions.RequestException as e:
+            print(f"❌ Error en la conexión: {e}")
 
-        if response.status_code == 200:
-            print(f"✅ Mensaje enviado a {phone}")
-        else:
-            print(f"❌ Error al enviar el mensaje a {phone}: {response.status_code}")
+# Imprimir el mensaje para verificación
+print("\nMensaje enviado:")
+print(mensaje)
