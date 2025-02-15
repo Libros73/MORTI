@@ -60,6 +60,7 @@ for categoria in categorias:
         break
 
 # Crear el mensaje final
+mensaje = f"Si no eres mortificado nunca serás alma de oración.\n\n"
 mensaje = f"Mortificaciones del {hoy}:\n\n"
 mensaje += f"1️⃣ {MORTIFICACIONES_FIJAS[hoy][0]}\n"
 mensaje += f"2️⃣ {MORTIFICACIONES_FIJAS[hoy][1]}\n"
