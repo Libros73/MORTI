@@ -30,11 +30,11 @@ if not PHONE_NUMBER or not API_KEY:
 # Definir mortificaciones fijas por día de la semana
 MORTIFICACIONES_FIJAS = {
     "Monday": ["No tomar café", "Hacer 10 minutos de oración en silencio"],
-    "Tuesday": ["No comer dulces", "Leer un capítulo de la Biblia"],
-    "Wednesday": ["No usar redes sociales por una hora", "Hacer un acto de caridad"],
-    "Thursday": ["Tomar agua en lugar de gaseosas", "Evitar quejarse todo el día"],
-    "Friday": ["Hacer ayuno parcial", "Rezar el Viacrucis"],
-    "Saturday": ["Hacer una visita al Santísimo", "No ver televisión"],
+    "Tuesday": ["No comer carne, ni pollo, ni cerdo, ni pescado", "Leer un capítulo de la Biblia"],
+    "Wednesday": ["No ver televisión", "Hacer un acto de caridad"],
+    "Thursday": ["Tomar agua en lugar de gaseosas", "Hacer una visita al Santísimo"],
+    "Friday": ["Hacer ayuno", "Rezar el Viacrucis"],
+    "Saturday": ["Evitar quejarse todo el día", "No usar redes sociales"],
 }
 
 # Obtener el día de la semana actual
